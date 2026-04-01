@@ -29,7 +29,8 @@ ORDER BY avg_aqi DESC
   data={all_states}
   x="state_name"
   y="avg_aqi"
+  swapXY=true
   title="All States by Average AQI"
   colorPalette={["#F59E0B"]}
-  xTickMarks=true
+  chartAreaHeight=1400
 />
