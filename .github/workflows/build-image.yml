@@ -15,13 +15,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Copy Bedrock SDK
-        run: |
-          gh repo clone Elite-Analytics-Inc/bedrock-analysis-ny-taxi /tmp/sdk-source -- --depth 1
-          cp -r /tmp/sdk-source/bedrock_sdk ./bedrock_sdk
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-
       - uses: docker/login-action@v3
         with:
           registry: ghcr.io
