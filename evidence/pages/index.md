@@ -73,6 +73,7 @@ FROM (
 )
 WHERE unhealthy_days >= ${inputs.min_unhealthy_days}
 ORDER BY unhealthy_days DESC
+LIMIT 20
 ```
 
 ```sql states_filtered
@@ -88,6 +89,7 @@ FROM (
 )
 WHERE avg_aqi >= ${inputs.min_aqi}
 ORDER BY avg_aqi DESC
+LIMIT 20
 ```
 
 ```sql pollutant_detail
