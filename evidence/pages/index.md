@@ -1,5 +1,6 @@
 ---
 title: EPA Air Quality Index
+sidebar_position: 1
 ---
 
 ```sql monthly_trend
@@ -181,6 +182,8 @@ ORDER BY days DESC
     <Column id="max_aqi" title="Peak AQI" />
   </DataTable>
 </Grid>
+
+[View all states →](/states)
 
 ## State Comparison
 
