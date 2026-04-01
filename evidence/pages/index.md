@@ -61,6 +61,20 @@ SELECT ROUND(SUM(CASE WHEN REPLACE(category, '"', '') = 'Good' THEN pct::DOUBLE 
 FROM results.categories
 ```
 
+```sql hotspots_filtered
+SELECT state_name, county_name, unhealthy_days, avg_aqi, max_aqi
+FROM (
+  SELECT REPLACE(state_name, '"', '') AS state_name,
+         REPLACE(county_name, '"', '') AS county_name,
+         unhealthy_days::INT AS unhealthy_days,
+         avg_aqi::DOUBLE AS avg_aqi,
+         max_aqi::INT AS max_aqi
+  FROM results.hotspots
+)
+WHERE unhealthy_days >= ${inputs.min_unhealthy_days}
+ORDER BY unhealthy_days DESC
+```
+
 ```sql states_filtered
 SELECT state_name, readings, avg_aqi, max_aqi, good_days, not_good_days
 FROM (
@@ -74,6 +88,17 @@ FROM (
 )
 WHERE avg_aqi >= ${inputs.min_aqi}
 ORDER BY avg_aqi DESC
+```
+
+```sql pollutant_detail
+SELECT REPLACE(pollutant, '"', '') AS pollutant,
+       days::BIGINT AS days,
+       avg_aqi::DOUBLE AS avg_aqi,
+       pct::DOUBLE AS pct
+FROM results.pollutants
+WHERE REPLACE(pollutant, '"', '') = '${inputs.selected_pollutant}'
+   OR '${inputs.selected_pollutant}' = 'All'
+ORDER BY days DESC
 ```
 
 <BigValue data={summary} value="national_avg_aqi" title="National Avg AQI" />
@@ -102,7 +127,7 @@ ORDER BY avg_aqi DESC
   />
 </Grid>
 
-## Air Quality Categories
+## Air Quality Categories & Pollutants
 
 <Grid cols=2>
   <BarChart
@@ -112,16 +137,6 @@ ORDER BY avg_aqi DESC
     title="Days by AQI Category"
     colorPalette={["#10B981","#F59E0B","#F97316","#EF4444","#7C3AED","#991B1B"]}
   />
-  <DataTable data={categories}>
-    <Column id="category" title="Category" />
-    <Column id="days" title="Days" fmt="num0" />
-    <Column id="pct" title="% of Total" fmt="num1" suffix="%" />
-  </DataTable>
-</Grid>
-
-## Defining Pollutants
-
-<Grid cols=2>
   <BarChart
     data={pollutants}
     x="pollutant"
@@ -129,6 +144,14 @@ ORDER BY avg_aqi DESC
     title="Days by Defining Pollutant"
     colorPalette={["#3B82F6"]}
   />
+</Grid>
+
+<Grid cols=2>
+  <DataTable data={categories}>
+    <Column id="category" title="Category" />
+    <Column id="days" title="Days" fmt="num0" />
+    <Column id="pct" title="% of Total" fmt="num1" suffix="%" />
+  </DataTable>
   <DataTable data={pollutants}>
     <Column id="pollutant" title="Pollutant" />
     <Column id="days" title="Days" fmt="num0" />
@@ -139,13 +162,25 @@ ORDER BY avg_aqi DESC
 
 ## Unhealthy Day Hotspots
 
-<DataTable data={hotspots} rows=15>
-  <Column id="state_name" title="State" />
-  <Column id="county_name" title="County" />
-  <Column id="unhealthy_days" title="Unhealthy Days" fmt="num0" />
-  <Column id="avg_aqi" title="Avg AQI" fmt="num1" />
-  <Column id="max_aqi" title="Peak AQI" />
-</DataTable>
+<Slider name="min_unhealthy_days" title="Minimum Unhealthy Days" min=5 max=100 step=5 defaultValue=20 />
+
+<Grid cols=2>
+  <BarChart
+    data={hotspots_filtered}
+    x="county_name"
+    y="unhealthy_days"
+    swapXY=true
+    title="Counties by Unhealthy Days"
+    colorPalette={["#EF4444"]}
+  />
+  <DataTable data={hotspots_filtered} rows=15>
+    <Column id="state_name" title="State" />
+    <Column id="county_name" title="County" />
+    <Column id="unhealthy_days" title="Unhealthy Days" fmt="num0" />
+    <Column id="avg_aqi" title="Avg AQI" fmt="num1" />
+    <Column id="max_aqi" title="Peak AQI" />
+  </DataTable>
+</Grid>
 
 ## State Comparison
 
