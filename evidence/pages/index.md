@@ -3,7 +3,7 @@ title: EPA Air Quality Index
 ---
 
 ```sql monthly_trend
-SELECT month::DATE AS month,
+SELECT REPLACE(month, '"', '')::DATE AS month,
        avg_aqi::DOUBLE AS avg_aqi,
        max_aqi::INT AS max_aqi,
        readings::BIGINT AS readings
