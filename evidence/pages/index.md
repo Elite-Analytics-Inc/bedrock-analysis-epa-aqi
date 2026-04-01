@@ -73,7 +73,6 @@ FROM (
 )
 WHERE unhealthy_days >= ${inputs.min_unhealthy_days}
 ORDER BY unhealthy_days DESC
-LIMIT 20
 ```
 
 ```sql states_filtered
@@ -89,7 +88,6 @@ FROM (
 )
 WHERE avg_aqi >= ${inputs.min_aqi}
 ORDER BY avg_aqi DESC
-LIMIT 20
 ```
 
 ```sql pollutant_detail
@@ -171,9 +169,9 @@ ORDER BY days DESC
     data={hotspots_filtered}
     x="county_name"
     y="unhealthy_days"
-    swapXY=true
     title="Counties by Unhealthy Days"
     colorPalette={["#EF4444"]}
+    xTickMarks=true
   />
   <DataTable data={hotspots_filtered} rows=15>
     <Column id="state_name" title="State" />
@@ -193,9 +191,9 @@ ORDER BY days DESC
     data={states_filtered}
     x="state_name"
     y="avg_aqi"
-    swapXY=true
     title="States by Average AQI"
     colorPalette={["#F59E0B"]}
+    xTickMarks=true
   />
   <DataTable data={states_filtered} rows=20>
     <Column id="state_name" title="State" />
