@@ -8,10 +8,10 @@
 <EvidenceDefaultLayout
 	{data}
 	hideHeader={true}
-	hideSidebar={true}
-	hideBreadcrumbs={true}
+	hideSidebar={false}
+	hideBreadcrumbs={false}
 	hideTOC={true}
-	fullWidth={true}
+	fullWidth={false}
 	builtWithEvidence={false}
 	neverShowQueries={true}
 >
