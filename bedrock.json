@@ -1,0 +1,24 @@
+{
+  "analysis_name": "epa-aqi",
+  "description": "EPA Air Quality Index analysis — AQI trends, pollutant breakdown, state comparisons, unhealthy day hotspots",
+  "inputs": ["bedrock.environment.epa_aqi_daily"],
+  "params_schema": {
+    "type": "object",
+    "properties": {
+      "year": {
+        "type": "integer",
+        "description": "Year to analyse (e.g. 2023)",
+        "default": 2023
+      },
+      "state": {
+        "type": "string",
+        "description": "State to focus on (optional, default: all states)",
+        "default": ""
+      }
+    }
+  },
+  "resources": {
+    "requests": { "cpu": "1", "memory": "2Gi" },
+    "limits": { "cpu": "4", "memory": "6Gi" }
+  }
+}
