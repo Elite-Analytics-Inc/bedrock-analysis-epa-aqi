@@ -21,7 +21,7 @@ SELECT REPLACE(state_name, '"', '') AS state_name,
        avg_aqi::DOUBLE AS avg_aqi,
        max_aqi::INT AS max_aqi
 FROM results.hotspots
-WHERE REPLACE(state_name, '"', '') = '${inputs.selected_state.value}'
+WHERE REPLACE(state_name, '"', '') = COALESCE(NULLIF('${inputs.selected_state.value}',''), 'California')
 ORDER BY unhealthy_days DESC
 ```
 
@@ -33,7 +33,7 @@ SELECT REPLACE(state_name, '"', '') AS state_name,
        good_days::BIGINT AS good_days,
        not_good_days::BIGINT AS not_good_days
 FROM results.states
-WHERE REPLACE(state_name, '"', '') = '${inputs.selected_state.value}'
+WHERE REPLACE(state_name, '"', '') = COALESCE(NULLIF('${inputs.selected_state.value}',''), 'California')
 ```
 
 # State Detail
