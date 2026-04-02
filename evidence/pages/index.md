@@ -8,14 +8,14 @@ SELECT REPLACE(month, '"', '')::DATE AS month,
        avg_aqi::DOUBLE AS avg_aqi,
        max_aqi::INT AS max_aqi,
        readings::BIGINT AS readings
-FROM monthly_trend ORDER BY month
+FROM results.monthly_trend ORDER BY month
 ```
 
 ```sql categories
 SELECT REPLACE(category, '"', '') AS category,
        days::BIGINT AS days,
        pct::DOUBLE AS pct
-FROM categories ORDER BY pct DESC
+FROM results.categories ORDER BY pct DESC
 ```
 
 ```sql pollutants
@@ -23,7 +23,7 @@ SELECT REPLACE(pollutant, '"', '') AS pollutant,
        days::BIGINT AS days,
        avg_aqi::DOUBLE AS avg_aqi,
        pct::DOUBLE AS pct
-FROM pollutants ORDER BY days DESC
+FROM results.pollutants ORDER BY days DESC
 ```
 
 ```sql hotspots
@@ -32,7 +32,7 @@ SELECT REPLACE(state_name, '"', '') AS state_name,
        unhealthy_days::INT AS unhealthy_days,
        avg_aqi::DOUBLE AS avg_aqi,
        max_aqi::INT AS max_aqi
-FROM hotspots ORDER BY unhealthy_days DESC
+FROM results.hotspots ORDER BY unhealthy_days DESC
 ```
 
 ```sql states
@@ -42,24 +42,24 @@ SELECT REPLACE(state_name, '"', '') AS state_name,
        max_aqi::INT AS max_aqi,
        good_days::BIGINT AS good_days,
        not_good_days::BIGINT AS not_good_days
-FROM states ORDER BY avg_aqi DESC
+FROM results.states ORDER BY avg_aqi DESC
 ```
 
 ```sql summary
 SELECT ROUND(AVG(avg_aqi::DOUBLE), 1) AS national_avg_aqi,
        MAX(max_aqi::INT) AS peak_aqi,
        SUM(readings::BIGINT) AS total_readings
-FROM monthly_trend
+FROM results.monthly_trend
 ```
 
 ```sql unhealthy_total
 SELECT SUM(unhealthy_days::INT) AS total_unhealthy_days
-FROM hotspots
+FROM results.hotspots
 ```
 
 ```sql good_pct
 SELECT ROUND(SUM(CASE WHEN REPLACE(category, '"', '') = 'Good' THEN pct::DOUBLE ELSE 0 END), 1) AS good_pct
-FROM categories
+FROM results.categories
 ```
 
 ```sql hotspots_filtered
@@ -70,7 +70,7 @@ FROM (
          unhealthy_days::INT AS unhealthy_days,
          avg_aqi::DOUBLE AS avg_aqi,
          max_aqi::INT AS max_aqi
-  FROM hotspots
+  FROM results.hotspots
 )
 WHERE unhealthy_days >= ${inputs.min_unhealthy_days}
 ORDER BY unhealthy_days DESC
@@ -85,7 +85,7 @@ FROM (
          max_aqi::INT AS max_aqi,
          good_days::BIGINT AS good_days,
          not_good_days::BIGINT AS not_good_days
-  FROM states
+  FROM results.states
 )
 WHERE avg_aqi >= ${inputs.min_aqi}
 ORDER BY avg_aqi DESC
@@ -96,7 +96,7 @@ SELECT REPLACE(pollutant, '"', '') AS pollutant,
        days::BIGINT AS days,
        avg_aqi::DOUBLE AS avg_aqi,
        pct::DOUBLE AS pct
-FROM pollutants
+FROM results.pollutants
 WHERE REPLACE(pollutant, '"', '') = '${inputs.selected_pollutant}'
    OR '${inputs.selected_pollutant}' = 'All'
 ORDER BY days DESC
