@@ -72,7 +72,7 @@ FROM (
          max_aqi::INT AS max_aqi
   FROM results.hotspots
 )
-WHERE unhealthy_days >= ${inputs.min_unhealthy_days}
+WHERE unhealthy_days >= COALESCE(NULLIF('${inputs.min_unhealthy_days}','')::INT, 20)
 ORDER BY unhealthy_days DESC
 ```
 
@@ -87,7 +87,7 @@ FROM (
          not_good_days::BIGINT AS not_good_days
   FROM results.states
 )
-WHERE avg_aqi >= ${inputs.min_aqi}
+WHERE avg_aqi >= COALESCE(NULLIF('${inputs.min_aqi}','')::DOUBLE, 30)
 ORDER BY avg_aqi DESC
 ```
 
