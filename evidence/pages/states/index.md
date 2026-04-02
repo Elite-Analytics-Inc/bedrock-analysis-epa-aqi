@@ -10,7 +10,7 @@ SELECT REPLACE(state_name, '"', '') AS state_name,
        max_aqi::INT AS max_aqi,
        good_days::BIGINT AS good_days,
        not_good_days::BIGINT AS not_good_days
-FROM states
+FROM results.states
 ORDER BY state_name
 ```
 
@@ -20,7 +20,7 @@ SELECT REPLACE(state_name, '"', '') AS state_name,
        unhealthy_days::INT AS unhealthy_days,
        avg_aqi::DOUBLE AS avg_aqi,
        max_aqi::INT AS max_aqi
-FROM hotspots
+FROM results.hotspots
 WHERE REPLACE(state_name, '"', '') = '${inputs.selected_state.value}'
 ORDER BY unhealthy_days DESC
 ```
@@ -32,7 +32,7 @@ SELECT REPLACE(state_name, '"', '') AS state_name,
        max_aqi::INT AS max_aqi,
        good_days::BIGINT AS good_days,
        not_good_days::BIGINT AS not_good_days
-FROM states
+FROM results.states
 WHERE REPLACE(state_name, '"', '') = '${inputs.selected_state.value}'
 ```
 
