@@ -4,7 +4,7 @@ sidebar_position: 1
 ---
 
 ```sql monthly_trend
-SELECT REPLACE(month, '"', '')::DATE AS month,
+SELECT month::DATE AS month,
        avg_aqi::DOUBLE AS avg_aqi,
        max_aqi::INT AS max_aqi,
        readings::BIGINT AS readings
