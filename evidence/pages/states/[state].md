@@ -1,7 +1,3 @@
----
-title: "{params.state}"
----
-
 ```sql state_info
 SELECT REPLACE(state_name, '"', '') AS state_name,
        readings,
@@ -31,9 +27,13 @@ ORDER BY unhealthy_days DESC
 
 ## County Hotspots
 
+{#if state_hotspots.length > 0}
 <DataTable data={state_hotspots}>
   <Column id="county_name" title="County" />
   <Column id="unhealthy_days" title="Unhealthy Days" fmt="num0" />
   <Column id="avg_aqi" title="Avg AQI" fmt="num1" />
   <Column id="max_aqi" title="Peak AQI" />
 </DataTable>
+{:else}
+No county hotspot data available for this state.
+{/if}

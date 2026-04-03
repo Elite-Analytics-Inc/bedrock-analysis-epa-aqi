@@ -9,7 +9,7 @@
 	{data}
 	hideHeader={true}
 	hideSidebar={false}
-	hideBreadcrumbs={false}
+	hideBreadcrumbs={true}
 	hideTOC={true}
 	fullWidth={true}
 	builtWithEvidence={false}
