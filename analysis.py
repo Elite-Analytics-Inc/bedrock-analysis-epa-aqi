@@ -50,7 +50,7 @@ job.progress(90, "Writing parquet files…")
 
 job.write_parquet("monthly_trend", f"""
     SELECT
-        DATE_TRUNC('month', date::DATE)::DATE AS month,
+        CAST(DATE_TRUNC('month', date::DATE) AS VARCHAR) AS month,
         ROUND(AVG(aqi), 1)  AS avg_aqi,
         MAX(aqi)            AS max_aqi,
         COUNT(*)            AS readings
