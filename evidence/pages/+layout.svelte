@@ -11,7 +11,7 @@
 	hideSidebar={false}
 	hideBreadcrumbs={false}
 	hideTOC={true}
-	fullWidth={false}
+	fullWidth={true}
 	builtWithEvidence={false}
 	neverShowQueries={true}
 >
