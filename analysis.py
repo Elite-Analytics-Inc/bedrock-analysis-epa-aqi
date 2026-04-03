@@ -22,9 +22,9 @@ job.update_progress("running_analysis", progress_pct=5,
                     progress_message="Connecting to query engine…")
 
 job.fetch("aqi_daily", f"""
-    SELECT defining_parameter, aqi, category, county_name, state_name, date_of_last_change
+    SELECT defining_parameter, aqi, category, county_name, state_name, date, year
     FROM bedrock.environment.epa_aqi_daily
-    WHERE EXTRACT(year FROM date_of_last_change::DATE) = {year}
+    WHERE year = {year}
 """)
 
 job.update_progress("running_analysis", progress_pct=10,
@@ -50,7 +50,7 @@ job.progress(90, "Writing parquet files…")
 
 job.write_parquet("monthly_trend", f"""
     SELECT
-        EXTRACT(month FROM date_of_last_change::DATE)::INT AS month,
+        EXTRACT(month FROM date::DATE)::INT AS month,
         ROUND(AVG(aqi), 1)  AS avg_aqi,
         MAX(aqi)            AS max_aqi,
         COUNT(*)            AS readings
