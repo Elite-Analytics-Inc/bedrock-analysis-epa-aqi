@@ -1,22 +1,24 @@
 ---
-title: ${params.state}
+title: "{params.state}"
 ---
 
 ```sql state_info
-SELECT state_name,
+SELECT REPLACE(state_name, '"', '') AS state_name,
        readings,
        avg_aqi,
        max_aqi,
        good_days,
        not_good_days
 FROM results.states
-WHERE state_name = '${params.state}'
+WHERE REPLACE(state_name, '"', '') = '${params.state}'
 ```
 
 ```sql state_hotspots
-SELECT state_name, county_name, unhealthy_days, avg_aqi, max_aqi
+SELECT REPLACE(state_name, '"', '') AS state_name,
+       REPLACE(county_name, '"', '') AS county_name,
+       unhealthy_days, avg_aqi, max_aqi
 FROM results.hotspots
-WHERE state_name = '${params.state}'
+WHERE REPLACE(state_name, '"', '') = '${params.state}'
 ORDER BY unhealthy_days DESC
 ```
 
