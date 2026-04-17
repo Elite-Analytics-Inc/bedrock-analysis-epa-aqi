@@ -2,7 +2,7 @@
 EPA Air Quality Index Analysis — Bedrock Job Definition
 =======================================================
 Queries the EPA AQI Iceberg dataset through the Bedrock query engine
-(ABAC enforced), materialises summary Parquet files for the Evidence
+(ABAC enforced), materialises summary Parquet files for the Bedrock Dash
 dashboard, and emits structured progress events visible in the Bedrock UI.
 """
 
@@ -146,5 +146,7 @@ job.table(
     headers=["Pollutant", "Days", "Avg AQI", "%"],
     rows=[[r[0], f"{r[1]:,}", r[2], r[3]] for r in pollutants],
 )
+
+job.write_dashboard("dashboard/index.md")
 
 job.complete()

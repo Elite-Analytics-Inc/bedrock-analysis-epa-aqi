@@ -12,5 +12,6 @@ RUN pip install --no-cache-dir \
 
 COPY bedrock_sdk/ /bedrock_sdk/
 COPY analysis.py .
+COPY dashboard/ dashboard/
 
 CMD ["python", "analysis.py"]
