@@ -2,6 +2,8 @@
 title: EPA Air Quality Index
 ---
 
+# EPA Air Quality Index
+
 ```sql monthly_trend
 SELECT month, avg_aqi, max_aqi, readings FROM monthly_trend ORDER BY month
 ```
